@@ -23,36 +23,24 @@ const transporter = nodemailer.createTransport({
 function postEmail(req, res) {
   const save = async () => {
     const email = new Email(req.body);
-    await email.save((err, data) => {
+    await email.save((err) => {
       if (err) {
         return res.status(400).json({ err: 1, msg: 'Bad Request', error: err });
       }
-      return res.status(200).json({ err: 0, msg: 'success', debug: data });
+      return res.status(200).render('order');
     });
   };
   save()
     .then(() => {
       const mailOptions = {
         from: process.env.SENDEMAIL,
-        to: req.body.email,
-        subject: 'Call-центр под ключ',
+        to: process.env.SENDTO,
+        subject: 'Лид',
         text: `
-          Здравствуйте, ${req.body.name}
-          Спасибо, что оставили заявку на нашем сайте. В ближайшее время с Вами свяжется наш менеджер. 
-          А пока предлагаем Вам ознакомиться с нашим коммерческим предложением и ценами на услуги. 
+          Имя: ${req.body.name}
+          Номер: ${req.body.phoneNumber} 
+          Email: ${req.body.email} 
         `,
-        attachments: [
-          {
-            filename: 'Коммерческое предложение.pdf',
-            path: 'static/Коммерческое предложение.pdf',
-            contentType: 'application/pdf',
-          },
-          {
-            filename: 'Прайс-лист.pdf',
-            path: 'static/Прайс-лист.pdf',
-            contentType: 'application/pdf',
-          },
-        ],
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {

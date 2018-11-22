@@ -1,0 +1,17 @@
+html{
+    overflow: hidden;
+}
+.sel{
+    background: linear-gradient(180deg, #ff7b00, #ffae00, #efd500,#ffe938);
+    position: relative;
+    height: 100vh;
+    font-family: 'Oswald', sans-serif;
+}
+.col-lg-12{
+    height: 20vh;
+    color: black;
+}
+.btn{
+    font-size: 3em;
+
+}
